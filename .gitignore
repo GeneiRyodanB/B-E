@@ -9,16 +9,16 @@ historical-timeline/*.iml
 historical-timeline/.idea/
 
 # Frontend
-timeline-project/node_modules/
-timeline-project/.next/
-timeline-project/out/
-timeline-project/build/
-timeline-project/.DS_Store
-timeline-project/*.pem
-timeline-project/.env.local
-timeline-project/.env.development.local
-timeline-project/.env.test.local
-timeline-project/.env.production.local
-timeline-project/npm-debug.log*
-timeline-project/yarn-debug.log*
-timeline-project/yarn-error.log*
+timeline-front/node_modules/
+timeline-front/.next/
+timeline-front/out/
+timeline-front/build/
+timeline-front/.DS_Store
+timeline-front/*.pem
+timeline-front/.env.local
+timeline-front/.env.development.local
+timeline-front/.env.test.local
+timeline-front/.env.production.local
+timeline-front/npm-debug.log*
+timeline-front/yarn-debug.log*
+timeline-front/yarn-error.log*

@@ -1,0 +1,282 @@
+"use client"
+
+import { useState, useEffect } from "react";
+import { Card } from "@/components/ui/card";
+import { Search, Globe, Clock, User, BookOpen, X, BookText, FileText } from "lucide-react";
+
+// Static data as fallback
+const initialData = {
+  "Ancient Period": {
+    "Egypt": [
+      {
+        year: "3150 BCE",
+        event: "Unification of Upper and Lower Egypt",
+        figure: "King Narmer",
+        details: "First dynasty of Egypt established"
+      }
+    ],
+    "Rome": [
+      {
+        year: "44 BCE",
+        event: "Assassination of Caesar",
+        figure: "Julius Caesar",
+        details: "End of the Roman Republic"
+      }
+    ]
+  },
+  "Medieval Period": {
+    "Europe": [
+      {
+        year: "800",
+        event: "Charlemagne Crowned",
+        figure: "Charlemagne",
+        details: "Holy Roman Empire established"
+      }
+    ]
+  }
+};
+
+function ResourcesModal({ resources, figure, onClose }) {
+  if (!resources || resources.length === 0) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <Card className="max-w-3xl w-full max-h-[80vh] overflow-y-auto">
+        <div className="p-6 space-y-6">
+          <div className="flex justify-between items-start">
+            <h2 className="text-2xl font-bold text-blue-600">
+              Resources about {figure}
+            </h2>
+            <button 
+              onClick={onClose}
+              className="p-1 hover:bg-gray-100 rounded-full"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {resources.map((resource, index) => (
+              <Card key={index} className="p-4">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center gap-2">
+                      {resource.resourceType === 'book' ? (
+                        <BookText className="w-4 h-4" />
+                      ) : (
+                        <FileText className="w-4 h-4" />
+                      )}
+                      <h4 className="text-lg font-bold text-blue-700">{resource.title}</h4>
+                    </div>
+                    <span className="text-sm bg-blue-100 px-2 py-1 rounded">
+                      {resource.year}
+                    </span>
+                  </div>
+                  {resource.author && (
+                    <div className="text-sm text-gray-600">
+                      by {resource.author}
+                    </div>
+                  )}
+                  {resource.description && (
+                    <p className="text-gray-600">{resource.description}</p>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm bg-purple-100 px-2 py-1 rounded">
+                      {resource.type}
+                    </span>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+export default function TimelineDiagram() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("All");
+  const [selectedPeriod, setSelectedPeriod] = useState("All");
+  const [selectedResources, setSelectedResources] = useState(null);
+  const [historicalData, setHistoricalData] = useState(initialData);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const queryParams = new URLSearchParams();
+        if (selectedPeriod !== "All") queryParams.append("period", selectedPeriod);
+        if (selectedCountry !== "All") queryParams.append("country", selectedCountry);
+        if (searchQuery) queryParams.append("search", searchQuery);
+
+        const response = await fetch(`http://localhost:8080/api/historical?${queryParams}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Received data:', data); // For debugging
+        setHistoricalData(data.events || data); // Handle both data formats
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError(`Failed to load data: ${err.message}`);
+        // Keep the initial data if the API call fails
+        setHistoricalData(initialData);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    const debounceTimer = setTimeout(fetchData, 300);
+    return () => clearTimeout(debounceTimer);
+  }, [searchQuery, selectedCountry, selectedPeriod]);
+
+  // Add debug logging for data
+  useEffect(() => {
+    console.log('Current historical data:', historicalData);
+  }, [historicalData]);
+
+  const periods = ["All", ...Object.keys(historicalData)];
+  const countries = [
+    "All",
+    ...new Set(
+      Object.values(historicalData).flatMap(periodData =>
+        Object.keys(periodData)
+      )
+    )
+  ];
+
+  // Filter and search functionality
+  const filteredData = Object.entries(historicalData).reduce((acc, [period, periodData]) => {
+    if (selectedPeriod !== "All" && period !== selectedPeriod) return acc;
+    
+    const filteredPeriodData = Object.entries(periodData).reduce((countryAcc, [country, events]) => {
+      if (selectedCountry !== "All" && country !== selectedCountry) return countryAcc;
+      
+      const filteredEvents = events.filter(event =>
+        searchQuery === "" ||
+        event.event.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        event.figure.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        event.details.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      
+      if (filteredEvents.length > 0) {
+        countryAcc[country] = filteredEvents;
+      }
+      return countryAcc;
+    }, {});
+    
+    if (Object.keys(filteredPeriodData).length > 0) {
+      acc[period] = filteredPeriodData;
+    }
+    return acc;
+  }, {});
+
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="mb-8 space-y-6">
+        <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          World History Timeline
+        </h1>
+        
+        <div className="flex flex-col space-y-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search events, figures, or details..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-1">
+              <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <select
+                value={selectedPeriod}
+                onChange={(e) => setSelectedPeriod(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg appearance-none cursor-pointer focus:ring-2 focus:ring-blue-500 outline-none"
+              >
+                {periods.map(period => (
+                  <option key={period} value={period}>{period}</option>
+                ))}
+              </select>
+            </div>
+            
+            <div className="relative flex-1">
+              <Globe className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <select
+                value={selectedCountry}
+                onChange={(e) => setSelectedCountry(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg appearance-none cursor-pointer focus:ring-2 focus:ring-blue-500 outline-none"
+              >
+                {countries.map(country => (
+                  <option key={country} value={country}>{country}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
+        </div>
+      ) : error ? (
+        <div className="text-red-500 text-center py-4">
+          {error}
+        </div>
+      ) : (
+        <div className="relative">
+          <div className="absolute left-24 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 to-purple-500" />
+          <div className="space-y-8">
+            {Object.entries(filteredData).map(([period, periodData]) =>
+              Object.entries(periodData).map(([country, events]) =>
+                events.map((event, index) => (
+                  <div key={`${period}-${country}-${index}`} className="relative flex items-center ml-24">
+                    <div className="absolute -left-4 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">
+                      •
+                    </div>
+                    <Card className="ml-8 p-4 w-full hover:shadow-lg transition-shadow">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-start">
+                          <span className="text-lg font-bold text-blue-600">{event.year}</span>
+                          <div className="flex gap-2">
+                            <span className="text-sm bg-blue-100 px-2 py-1 rounded">{country}</span>
+                            <span className="text-sm bg-purple-100 px-2 py-1 rounded">{period}</span>
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-bold">{event.event}</h3>
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <User className="w-4 h-4" />
+                            <span>{event.figure}</span>
+                          </div>
+                        </div>
+                        <p className="text-gray-600 text-sm">{event.details}</p>
+                      </div>
+                    </Card>
+                  </div>
+                ))
+              )
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
