@@ -1,0 +1,24 @@
+#common
+.env
+
+# Backend
+historical-timeline/target/
+
+historical-timeline/.env
+historical-timeline/*.iml
+historical-timeline/.idea/
+
+# Frontend
+timeline-project/node_modules/
+timeline-project/.next/
+timeline-project/out/
+timeline-project/build/
+timeline-project/.DS_Store
+timeline-project/*.pem
+timeline-project/.env.local
+timeline-project/.env.development.local
+timeline-project/.env.test.local
+timeline-project/.env.production.local
+timeline-project/npm-debug.log*
+timeline-project/yarn-debug.log*
+timeline-project/yarn-error.log*
