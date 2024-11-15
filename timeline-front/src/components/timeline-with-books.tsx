@@ -2,9 +2,66 @@
 
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
-import { Search, Globe, Clock, User, BookOpen, X, BookText, FileText } from "lucide-react";
+import { Search, Globe, Clock, User, BookOpen, X, BookText, FileText, ChevronLeft, ChevronRight, Maximize2, Minimize2 } from "lucide-react";
 
-function ResourcesModal({ resources, figure, onClose }) {
+// Static sample content for resources
+const STATIC_CONTENT = {
+  "Morocco That Was": `Morocco That Was by Walter Harris
+
+Chapter 1: Introduction
+
+In the latter years of the nineteenth century Morocco remained a land apart, keeping its distance from the developing ambitions of European colonial powers. It was a country of infinite charm and variety, a paradise for painters, a happy hunting ground for diplomats, and a source of anxiety to governments. The Sultan's authority, though real enough in the submissive areas, was often more nominal than actual in the tribal regions, and the distinction between Bled el-Makhzen—the government's land—and Bled es-Siba—the land of dissidence—was marked...
+
+Chapter 2: The Land and Its People
+
+The Moroccan people presented a fascinating mixture of Arab and Berber cultures. The Arabs, who had arrived with the Islamic conquest, dominated the plains and cities, while the Berbers remained the masters of the mountains. This division was not merely geographical; it represented profound differences in social organization, custom, and even religious practice...
+
+The great cities of Fez, Marrakesh, Rabat, and Meknes each had their distinct character. Fez, with its ancient university of Al-Quaraouiyine, was the intellectual and spiritual capital. Marrakesh, lying at the foot of the Atlas Mountains, was the gateway to the Sahara and the great trading routes of Africa...`,
+
+  "Early Dynastic Egypt": `Early Dynastic Egypt by Toby A. H. Wilkinson
+
+Chapter 1: The Path to Unification
+
+The unification of Upper and Lower Egypt marks one of humanity's first recorded attempts at nation-building. Through careful analysis of archaeological evidence, we can trace the complex process that led to the formation of the world's first territorial state...
+
+Chapter 2: The First Dynasty
+
+The establishment of the First Dynasty represents a watershed moment in human history. Under Narmer and his successors, we see the emergence of sophisticated administrative systems, complex hierarchies, and the beginnings of monumental architecture. The royal tombs at Abydos provide us with rich evidence of this transformative period...
+
+Chapter 3: State Formation
+
+The development of early Egyptian state institutions was remarkably sophisticated. The period saw the emergence of complex bureaucratic systems, standardized writing, and centralized economic control. These innovations would shape Egyptian civilization for millennia to come...`,
+
+  "Life of Charlemagne": `Life of Charlemagne by Einhard
+
+Preface
+
+I have taken care not to omit any facts that could come to my knowledge, but at the same time not to offend by presenting a mass of superfluous matter. I have tried to write in a style as plain and direct as possible...
+
+Chapter 1: The Merovingian Family
+
+Before Charlemagne, the family called the Merovingians had exercised royal authority over the Franks. Although they had long borne the name of king, their power had dwindled to nothing. The wealth and power of the kingdom had passed into the hands of the prefects of the palace, called "mayors of the palace"...
+
+Chapter 2: Charlemagne's Accession
+
+After the death of Pepin, the kingdom passed by divine will to his sons, Charles and Carloman. The Franks, in a solemn assembly, made them both kings on the condition that they should divide the whole kingdom equally...`,
+
+  "The First Man: The Life of Neil A. Armstrong": `The First Man: The Life of Neil A. Armstrong by James R. Hansen
+
+Chapter 1: Navy Fighter Pilot
+
+Long before he walked on the Moon, Neil Armstrong was pushing the boundaries of flight within Earth's atmosphere. As a naval aviator, he flew 78 combat missions during the Korean War. His experiences in the Navy shaped his later career and contributed to his selection as an astronaut...
+
+Chapter 2: The Apollo Mission
+
+The Apollo 11 mission represented the culmination of years of scientific advancement and personal preparation. Armstrong's selection as commander was based on both his technical expertise and his demonstrated ability to remain calm under pressure. The mission itself was a testament to human ingenuity and courage...
+
+Chapter 3: The Moonwalk
+
+The first human footsteps on the Moon marked a watershed moment in human history. Armstrong's famous words, "That's one small step for man, one giant leap for mankind," captured the magnitude of the achievement. The lunar landing demonstrated both human technological achievement and the power of peaceful international competition...`
+};
+
+function ResourcesModal({ resources, figure, onClose, setSelectedReadingResource }) {
   if (!resources || resources.length === 0) return null;
 
   return (
@@ -48,19 +105,27 @@ function ResourcesModal({ resources, figure, onClose }) {
                   {resource.description && (
                     <p className="text-gray-600">{resource.description}</p>
                   )}
-                  <div className="flex flex-wrap gap-2">
-                    <span className="text-sm bg-purple-100 px-2 py-1 rounded">
-                      {resource.type}
-                    </span>
-                    {/* Add topics */}
-                    {resource.topics && resource.topics.map((topic, i) => (
-                      <span 
-                        key={i} 
-                        className="text-sm bg-green-100 px-2 py-1 rounded"
-                      >
-                        {topic}
+                  <div className="flex justify-between items-center">
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-sm bg-purple-100 px-2 py-1 rounded">
+                        {resource.type}
                       </span>
-                    ))}
+                      {resource.topics && resource.topics.map((topic, i) => (
+                        <span 
+                          key={i} 
+                          className="text-sm bg-green-100 px-2 py-1 rounded"
+                        >
+                          {topic}
+                        </span>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => setSelectedReadingResource(resource)}
+                      className="flex items-center gap-1 text-sm text-blue-500 hover:text-blue-600"
+                    >
+                      <BookText className="w-4 h-4" />
+                      <span>Read</span>
+                    </button>
                   </div>
                 </div>
               </Card>
@@ -71,6 +136,138 @@ function ResourcesModal({ resources, figure, onClose }) {
     </div>
   );
 }
+
+function ResourceReader({ resource, onClose }) {
+  const [fontSize, setFontSize] = useState(16);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchContent() {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `http://localhost:8080/api/books/content?title=${encodeURIComponent(resource.title)}&author=${encodeURIComponent(resource.author || '')}`
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to load book content');
+        }
+
+        const text = await response.text();
+        // Process the text to preserve paragraphs and line breaks
+        const processedText = text
+          .replace(/\n\n/g, '[PARAGRAPH]') // Mark paragraphs
+          .replace(/\n/g, ' ') // Replace single line breaks with spaces
+          .replace(/\[PARAGRAPH\]/g, '\n\n'); // Restore paragraphs
+        setContent(processedText);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading book:', err);
+        setError('Failed to load book content');
+        setContent("Content unavailable");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchContent();
+  }, [resource]);
+
+  /*const WORDS_PER_PAGE = 300;
+  const words = content.split(/\s+/);
+  const totalPages = Math.ceil(words.length / WORDS_PER_PAGE);
+  const currentPageContent = words.slice(
+    (currentPage - 1) * WORDS_PER_PAGE,
+    currentPage * WORDS_PER_PAGE
+  ).join(' ');*/
+
+  // Split content into pages based on paragraphs rather than words
+  const paragraphs = content.split('\n\n').filter(p => p.trim());
+  const PARAGRAPHS_PER_PAGE = 5;
+  const totalPages = Math.ceil(paragraphs.length / PARAGRAPHS_PER_PAGE);
+  const currentPageParagraphs = paragraphs.slice(
+    (currentPage - 1) * PARAGRAPHS_PER_PAGE,
+    currentPage * PARAGRAPHS_PER_PAGE
+  );
+
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <Card className="w-full max-w-4xl max-h-[90vh] bg-white">
+        <div className="border-b p-4 flex justify-between items-center">
+          <h2 className="text-xl font-bold text-blue-600">{resource.title}</h2>
+          <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded">
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+        
+        <div className="p-6 overflow-y-auto" style={{ fontSize: `${fontSize}px` }}>
+          {loading ? (
+            <div className="flex justify-center items-center h-full">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
+            </div>
+          ) : error ? (
+            <div className="text-red-500 text-center">
+              {error}
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {currentPageParagraphs.map((paragraph, index) => (
+                <p 
+                  key={index} 
+                  className="whitespace-pre-line"
+                  style={{ textIndent: paragraph.startsWith('Chapter') ? 0 : '2em' }}
+                >
+                  {paragraph.trim()}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+
+
+        <div className="border-t p-4 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setFontSize(s => Math.max(12, s - 2))}
+              className="px-2 py-1 bg-gray-100 rounded"
+            >
+              A-
+            </button>
+            <button
+              onClick={() => setFontSize(s => Math.min(24, s + 2))}
+              className="px-2 py-1 bg-gray-100 rounded"
+            >
+              A+
+            </button>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="p-2 hover:bg-gray-100 rounded disabled:opacity-50"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <span>Page {currentPage} of {totalPages}</span>
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="p-2 hover:bg-gray-100 rounded disabled:opacity-50"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
 function parseYear(yearStr) {
   // Remove any whitespace
   yearStr = yearStr.trim();
@@ -90,6 +287,7 @@ export default function TimelineDiagram() {
   const [selectedCountry, setSelectedCountry] = useState("All");
   const [selectedPeriod, setSelectedPeriod] = useState("All");
   const [selectedResources, setSelectedResources] = useState(null);
+  const [selectedReadingResource, setSelectedReadingResource] = useState(null);
   const [historicalData, setHistoricalData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -279,13 +477,15 @@ export default function TimelineDiagram() {
                         <span>{event.figure}</span>
                       </div>
                       {event.resources && event.resources.length > 0 && (
-                        <button
-                          onClick={() => setSelectedResources(event)}
-                          className="flex items-center gap-1 text-sm text-blue-500 hover:text-blue-600"
-                        >
-                          <BookOpen className="w-4 h-4" />
-                          <span>View Resources ({event.resources.length})</span>
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setSelectedResources(event)}
+                            className="flex items-center gap-1 text-sm text-blue-500 hover:text-blue-600"
+                          >
+                            <BookOpen className="w-4 h-4" />
+                            <span>View Resources ({event.resources.length})</span>
+                          </button>
+                        </div>
                       )}
                     </div>
                     <p className="text-gray-600 text-sm">{event.details}</p>
@@ -314,6 +514,14 @@ export default function TimelineDiagram() {
           resources={selectedResources.resources}
           figure={selectedResources.figure}
           onClose={() => setSelectedResources(null)}
+          setSelectedReadingResource={setSelectedReadingResource}
+        />
+      )}
+
+      {selectedReadingResource && (
+        <ResourceReader
+          resource={selectedReadingResource}
+          onClose={() => setSelectedReadingResource(null)}
         />
       )}
     </div>

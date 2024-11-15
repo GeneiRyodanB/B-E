@@ -40,4 +40,5 @@ public class HistoricalEvent extends PanacheEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Resource> resources;
+
 }
