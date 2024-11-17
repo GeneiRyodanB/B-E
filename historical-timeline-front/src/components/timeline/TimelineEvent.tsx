@@ -6,7 +6,9 @@ import { Badge } from "@/components/ui/badge"
 import { ChevronDown, ChevronUp, Book, User } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import { HistoricalEvent } from './types'
+import { periodStyles, eventTypeStyles } from './constants'
 import { eventTypes, timelineData } from './timelineData'
+import SearchHighlight from './SearchHighlight'
 
 interface TimelineEventProps {
   event: HistoricalEvent
@@ -14,6 +16,7 @@ interface TimelineEventProps {
   expandedEvent: number | null
   toggleEvent: (index: number) => void
   viewMode: 'detailed' | 'compact'
+  searchQuery: string
 }
 
 const TimelineEvent: React.FC<TimelineEventProps> = ({ 
@@ -21,7 +24,8 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({
   index, 
   expandedEvent, 
   toggleEvent, 
-  viewMode 
+  viewMode,
+  searchQuery 
 }) => {
   const period = timelineData.periods.find(p => p.name === event.period)
   const eventType = eventTypes[event.eventType]
@@ -29,6 +33,7 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({
   const PeriodIcon = period ? Icons[period.icon as keyof typeof Icons] : null
 
   return (
+    
     <motion.div 
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}

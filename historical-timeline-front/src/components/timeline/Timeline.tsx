@@ -5,6 +5,8 @@ import TimelineFilters from './TimelineFilters'
 import TimelineEvent from './TimelineEvent'
 import { TimelineData, HistoricalEvent } from './types'
 import { timelineData } from './timelineData'
+import TimelineStats from './TimelineStats'
+import TimelineLegend from './TimelineLegend'
 
 export const Timeline = () => {
   const [expandedEvent, setExpandedEvent] = useState<number | null>(null)
@@ -71,6 +73,8 @@ export const Timeline = () => {
         viewMode={viewMode}
         setViewMode={setViewMode}
       />
+      <TimelineStats filteredEvents={filteredEvents} />
+      <TimelineLegend />
 
       <div className="relative mt-16">
         {/* Main vertical line */}

@@ -1,5 +1,6 @@
 #common
 .env
+node_modules/
 
 # Backend
 historical-timeline/target/
