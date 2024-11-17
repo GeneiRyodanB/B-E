@@ -12,6 +12,8 @@ import jakarta.ws.rs.core.Response;
 import org.historical.model.BookContent;
 import org.historical.service.BookContentService;
 
+import java.util.List;
+
 
 @Path("/books")
 @Produces(MediaType.APPLICATION_JSON)
@@ -23,20 +25,20 @@ public class BookResource {
     @GET
     @Path("/content")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getBookContent(
+    public Response getBookContents(
             @QueryParam("title") String title,
             @QueryParam("author") String author
     ) {
-        BookContent book = bookContentService.getBookContent(title, author);
+        List<BookContent> books = bookContentService.getBookContent(title, author);
 
-        if (book == null) {
+        if (books == null || books.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND)
                     .entity("Book content not found")
                     .build();
         }
 
-        return Response.ok(book.content)
-                .header("Content-Type", "text/plain;charset=UTF-8")
+        return Response.ok(books)
+                .header("Content-Type", MediaType.APPLICATION_JSON)
                 .build();
     }
 

@@ -6,13 +6,15 @@ import jakarta.transaction.Transactional;
 import org.historical.model.BookContent;
 import org.historical.repository.BookContentRepository;
 
+import java.util.List;
+
 @ApplicationScoped
 public class BookContentService {
 
     @Inject
     BookContentRepository repository;
 
-    public BookContent getBookContent(String title, String author) {
+    public List<BookContent> getBookContent(String title, String author) {
         return repository.findByTitleAndAuthor(title, author);
     }
 

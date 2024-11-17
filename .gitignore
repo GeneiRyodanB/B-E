@@ -22,3 +22,18 @@ timeline-front/.env.production.local
 timeline-front/npm-debug.log*
 timeline-front/yarn-debug.log*
 timeline-front/yarn-error.log*
+
+# Frontend v2
+historical-timeline-front/node_modules/
+historical-timeline-front/.next/
+historical-timeline-front/out/
+historical-timeline-front/build/
+historical-timeline-front/.DS_Store
+historical-timeline-front/*.pem
+historical-timeline-front/.env.local
+historical-timeline-front/.env.development.local
+historical-timeline-front/.env.test.local
+historical-timeline-front/.env.production.local
+historical-timeline-front/npm-debug.log*
+historical-timeline-front/yarn-debug.log*
+historical-timeline-front/yarn-error.log*

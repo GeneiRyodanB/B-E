@@ -73,6 +73,16 @@ public class HistoricalEventResource {
                 .build();
     }
 
+    @POST
+    @Path("/all")
+    @Transactional
+    public Response createAllEvent(@Valid List<HistoricalEvent> events) {
+        repository.persist(events);
+        return Response.status(Response.Status.CREATED)
+                .entity(events)
+                .build();
+    }
+
     @PUT
     @Path("/{id}")
     @Transactional

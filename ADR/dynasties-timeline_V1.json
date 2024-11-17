@@ -1,0 +1,234 @@
+[
+  {
+    "id": "1",
+    "name": "Chinese Dynasties",
+    "description": "A timeline of major dynasties in Chinese history.",
+    "region": "China",
+    "dynasties": [
+      {
+        "id": "d1",
+        "name": "Han Dynasty",
+        "startYear": -206,
+        "endYear": 220,
+        "description": "A major dynasty in Chinese history known for its cultural and technological achievements.",
+        "regimes": [
+          {
+            "id": "r1",
+            "name": "Western Han",
+            "ruler": "Emperor Gaozu",
+            "startYear": -206,
+            "endYear": -9,
+            "description": "The early part of the Han dynasty.",
+            "events": [
+              {
+                "id": "e1",
+                "name": "Establishment of the Han Dynasty",
+                "date": "-206",
+                "description": "Liu Bang becomes Emperor Gaozu and establishes the Han Dynasty."
+              }
+            ],
+            "resources": [
+              {
+                "id": "res1",
+                "title": "The Early Chinese Empires: Qin and Han",
+                "author": "Mark Edward Lewis",
+                "type": "book",
+                "url": "https://example.com/han-dynasty-book"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d2",
+        "name": "Tang Dynasty",
+        "startYear": 618,
+        "endYear": 907,
+        "description": "A golden age of Chinese culture, art, and economy.",
+        "regimes": [
+          {
+            "id": "r2",
+            "name": "Tang Early Period",
+            "ruler": "Emperor Taizong",
+            "startYear": 626,
+            "endYear": 649,
+            "description": "The consolidation and expansion of Tang rule under Emperor Taizong."
+          }
+        ]
+      }
+
+    ]
+  },
+  {
+    "id": "1",
+    "name": "تاريخ الإسلام",
+    "description": "خط زمني لتاريخ الإسلام يسلط الضوء على الخلافات الكبرى والدول الإسلامية.",
+    "regions": ["الشرق الأوسط", "أوروبا", "شمال إفريقيا"],
+    "dynasties": [
+      {
+        "id": "d1",
+        "name": "الخلافة الراشدة",
+        "startYear": 632,
+        "endYear": 661,
+        "description": "الخلافة الأولى بعد وفاة النبي محمد ﷺ، بقيادة الخلفاء الراشدين.",
+        "regimes": [
+          {
+            "id": "r1",
+            "name": "خلافة أبو بكر الصديق",
+            "ruler": "أبو بكر الصديق",
+            "startYear": 632,
+            "endYear": 634,
+            "description": "أول خليفة بعد النبي محمد ﷺ، تميزت خلافته بحروب الردة.",
+            "events": [
+              {
+                "id": "e1",
+                "name": "حروب الردة",
+                "date": "632-633",
+                "description": "حروب ضد القبائل التي ارتدت عن الإسلام بعد وفاة النبي ﷺ."
+              }
+            ],
+            "resources": [
+              {
+                "id": "res1",
+                "title": "خلافة أبو بكر الصديق",
+                "author": "علي محمد الصلابي",
+                "type": "كتاب",
+                "url": "https://example.com/abubakr-caliphate"
+              }
+            ]
+          },
+          {
+            "id": "r2",
+            "name": "خلافة عمر بن الخطاب",
+            "ruler": "عمر بن الخطاب",
+            "startYear": 634,
+            "endYear": 644,
+            "description": "ثاني الخلفاء الراشدين، شهدت خلافته توسعاً كبيراً للدولة الإسلامية.",
+            "events": [
+              {
+                "id": "e2",
+                "name": "فتح بلاد فارس",
+                "date": "636",
+                "description": "معركة القادسية التي أدت إلى سقوط الإمبراطورية الفارسية."
+              },
+              {
+                "id": "e3",
+                "name": "فتح بيت المقدس",
+                "date": "637",
+                "description": "دخول المسلمين إلى القدس بقيادة عمر بن الخطاب."
+              }
+            ],
+            "resources": [
+              {
+                "id": "res2",
+                "title": "عمر بن الخطاب: الفاروق",
+                "author": "علي الطنطاوي",
+                "type": "كتاب",
+                "url": "https://example.com/omar-caliphate"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d2",
+        "name": "الخلافة الأموية",
+        "startYear": 661,
+        "endYear": 750,
+        "description": "الخلافة الأولى التي تبنت نظام الحكم الوراثي، وشهدت توسع الدولة الإسلامية.",
+        "regimes": [
+          {
+            "id": "r3",
+            "name": "خلافة معاوية بن أبي سفيان",
+            "ruler": "معاوية بن أبي سفيان",
+            "startYear": 661,
+            "endYear": 680,
+            "description": "أول خلفاء بني أمية، أسس نظام الخلافة الوراثي.",
+            "events": [
+              {
+                "id": "e4",
+                "name": "تأسيس الخلافة الأموية",
+                "date": "661",
+                "description": "معاوية بن أبي سفيان يتولى الحكم ويؤسس الخلافة الأموية."
+              }
+            ],
+            "resources": [
+              {
+                "id": "res3",
+                "title": "معاوية بن أبي سفيان: مؤسس الدولة الأموية",
+                "author": "جرجي زيدان",
+                "type": "كتاب",
+                "url": "https://example.com/muawiya-umayyad"
+              }
+            ]
+          },
+          {
+            "id": "r4",
+            "name": "خلافة عبد الملك بن مروان",
+            "ruler": "عبد الملك بن مروان",
+            "startYear": 685,
+            "endYear": 705,
+            "description": "أحد أعظم الخلفاء الأمويين، اشتهر بتعريب الدواوين وإصدار العملة الإسلامية.",
+            "events": [
+              {
+                "id": "e5",
+                "name": "تعريب الدواوين",
+                "date": "700",
+                "description": "تحويل إدارة الدولة إلى اللغة العربية."
+              },
+              {
+                "id": "e6",
+                "name": "بناء قبة الصخرة",
+                "date": "691",
+                "description": "أمر عبد الملك بن مروان ببناء قبة الصخرة في القدس."
+              }
+            ],
+            "resources": [
+              {
+                "id": "res4",
+                "title": "عبد الملك بن مروان: المؤسس الحقيقي للدولة الأموية",
+                "author": "حسين مؤنس",
+                "type": "كتاب",
+                "url": "https://example.com/abdulmalik-caliphate"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "d3",
+        "name": "الخلافة العباسية",
+        "startYear": 750,
+        "endYear": 1258,
+        "description": "الخلافة العباسية تميزت بازدهار العلوم والثقافة الإسلامية.",
+        "regimes": [
+          {
+            "id": "r5",
+            "name": "خلافة هارون الرشيد",
+            "ruler": "هارون الرشيد",
+            "startYear": 786,
+            "endYear": 809,
+            "description": "عصر ذهبي للعلوم والفنون في الدولة الإسلامية.",
+            "events": [
+              {
+                "id": "e7",
+                "name": "إنشاء بيت الحكمة",
+                "date": "800",
+                "description": "مركز علمي في بغداد للترجمة والبحث العلمي."
+              }
+            ],
+            "resources": [
+              {
+                "id": "res5",
+                "title": "هارون الرشيد: الخليفة العادل",
+                "author": "شوقي أبو خليل",
+                "type": "كتاب",
+                "url": "https://example.com/harun-alrashid"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

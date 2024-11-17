@@ -1,0 +1,35 @@
+{
+    "events": [
+        {
+            "year": "1912",
+            "eventName": "Establishment of French Protectorate in Morocco",
+            "figures": ["Mulai Abdel Aziz", "Sir William Kirby-Green", "Mulai Hassen"],
+            "details": "Period of significant transformation in Morocco, documented by Times correspondent Walter Harris",
+            "period": "Modern Era",
+            "country": "Morocco",
+            "regions": ["North Africa", "Maghreb region"],
+            "topics": [
+                "Colonialism",
+                "European Imperialism",
+                "North African History",
+                "French Colonial Empire",
+                "International Relations"
+            ],
+            "resources": [
+                {
+                    "title": "Morocco That Was",
+                    "author": "Walter Harris",
+                    "year": "1921",
+                    "type": "Historical Account",
+                    "description": "Until 1912 Morocco had never suffered foreign domination, and its mountainous interior was as closed to foreigners as Tibet. Walter Harris was the exception. He lived in the country for more than thirty-five years, and as The Times correspondant he observed every aspect of its life. He describes the unfettered Sultanate in all its dark, melodramatic splendour. Harris was an intimate of at least three of the ruling Sultans and a man capable of befriending even his kidnapper. Included in this volume is his account of his most audacious expedition. Only three Christians had ever visited the walled city of Sheshouan: one was poisoned, one came for an hour disguised as a rabbi... the other was Walter Harris.",
+                    "topics": [
+                        "Pre-colonial Morocco",
+                        "European Journalism",
+                        "Diplomatic History"
+                    ],
+                    "resourceType": "book"
+                }
+            ]
+        }
+    ]
+}
