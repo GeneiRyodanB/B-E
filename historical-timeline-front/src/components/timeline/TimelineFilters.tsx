@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import { Filter, Search, Calendar, LayoutList, LayoutGrid } from 'lucide-react'
 import { timelineData } from './timelineData'
+import { periodStyles } from './constants'
 
 interface TimelineFiltersProps {
   yearRange: number[]
@@ -21,6 +22,33 @@ interface TimelineFiltersProps {
   setSearchQuery: (query: string) => void
   viewMode: 'detailed' | 'compact'
   setViewMode: (mode: 'detailed' | 'compact') => void
+}
+
+const TimelinePeriodBadge: React.FC<{
+  period: string
+  isSelected: boolean
+  onClick: () => void
+}> = ({ period, isSelected, onClick }) => {
+  const style = periodStyles[period as keyof typeof periodStyles]
+
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <Badge
+        variant="outline"
+        className={`cursor-pointer transition-all duration-300 ${
+          isSelected 
+            ? `${style.dot} text-white border-transparent` 
+            : `${style.lightBg} ${style.text} hover:${style.lightBg}`
+        }`}
+        onClick={onClick}
+      >
+        {period}
+      </Badge>
+    </motion.div>
+  )
 }
 
 const TimelineFilters: React.FC<TimelineFiltersProps> = ({
@@ -124,23 +152,16 @@ const TimelineFilters: React.FC<TimelineFiltersProps> = ({
         <h3 className="font-medium mb-2">Historical Periods</h3>
         <div className="flex flex-wrap gap-2">
           {timelineData.periods.map(period => (
-            <motion.div
+            <TimelinePeriodBadge
               key={period.name}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Badge
-                variant={selectedPeriods.includes(period.name) ? "default" : "outline"}
-                className={`cursor-pointer bg-${period.color}-100 hover:bg-${period.color}-200`}
-                onClick={() => setSelectedPeriods(prev => 
-                  prev.includes(period.name) 
-                    ? prev.filter(p => p !== period.name)
-                    : [...prev, period.name]
-                )}
-              >
-                {period.name}
-              </Badge>
-            </motion.div>
+              period={period.name}
+              isSelected={selectedPeriods.includes(period.name)}
+              onClick={() => setSelectedPeriods(prev => 
+                prev.includes(period.name) 
+                  ? prev.filter(p => p !== period.name)
+                  : [...prev, period.name]
+              )}
+            />
           ))}
         </div>
       </div>

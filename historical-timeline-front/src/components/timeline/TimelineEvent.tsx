@@ -28,6 +28,7 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({
   searchQuery 
 }) => {
   const period = timelineData.periods.find(p => p.name === event.period)
+  const periodStyle = periodStyles[event.period as keyof typeof periodStyles]
   const eventType = eventTypes[event.eventType]
   const EventIcon = eventType ? Icons[eventType.icon as keyof typeof Icons] : null
   const PeriodIcon = period ? Icons[period.icon as keyof typeof Icons] : null
@@ -70,14 +71,16 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({
                 <EventIcon className={`h-6 w-6 text-${eventType.color}-500`} />
               )}
               <div>
-                <h2 className="text-xl font-semibold">{event.eventName}</h2>
+                <h2 className="text-xl font-semibold">
+                  <SearchHighlight 
+                    text={event.eventName} 
+                    searchQuery={searchQuery}
+                  />
+                </h2>
                 <div className="flex items-center gap-2 mt-1">
-                  {PeriodIcon && (
-                    <PeriodIcon className={`h-4 w-4 text-${period?.color}-500`} />
-                  )}
-                  <span className={`text-sm text-${period?.color}-600`}>
+                  <Badge className={`${periodStyle.lightBg} ${periodStyle.text} border ${periodStyle.border}`}>
                     {event.period}
-                  </span>
+                  </Badge>
                 </div>
               </div>
             </div>
