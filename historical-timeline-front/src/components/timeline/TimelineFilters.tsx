@@ -5,8 +5,8 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { Filter, Search, Calendar, LayoutList, LayoutGrid } from 'lucide-react'
-import { timelineData } from './timelineData'
+import { Filter, Search, Calendar, LayoutList, LayoutGrid, Globe2 } from 'lucide-react'
+import { timelineData, countryStyles } from './timelineData'
 import { periodStyles } from './constants'
 
 interface TimelineFiltersProps {
@@ -18,6 +18,8 @@ interface TimelineFiltersProps {
   setSelectedRegions: (regions: string[]) => void
   selectedPeriods: string[]
   setSelectedPeriods: (periods: string[]) => void
+  selectedCountries: string[] // New prop
+  setSelectedCountries: (countries: string[]) => void
   searchQuery: string
   setSearchQuery: (query: string) => void
   viewMode: 'detailed' | 'compact'
@@ -60,11 +62,18 @@ const TimelineFilters: React.FC<TimelineFiltersProps> = ({
   setSelectedRegions,
   selectedPeriods,
   setSelectedPeriods,
+  selectedCountries,
+  setSelectedCountries,
   searchQuery,
   setSearchQuery,
   viewMode,
   setViewMode,
 }) => {
+  // Get unique countries from data
+  const countries = React.useMemo(() => {
+    return Array.from(new Set(timelineData.events.map(event => event.country)))
+  }, [])
+
   const allTopics = React.useMemo(() => {
     const topics = new Set<string>()
     timelineData.events.forEach(event => {
@@ -125,6 +134,41 @@ const TimelineFilters: React.FC<TimelineFiltersProps> = ({
             <LayoutGrid className="h-4 w-4 mr-2" />
             Compact
           </Button>
+        </div>
+      </div>
+
+      {/* Countries Filter - New Section */}
+      <div className="mb-6">
+        <h3 className="font-medium mb-2 flex items-center gap-2">
+          <Globe2 className="h-4 w-4" />
+          Countries
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {countries.map(country => {
+            const config = countryStyles[country as keyof typeof countryStyles]
+            const isSelected = selectedCountries.includes(country)
+            
+            return (
+              <motion.div
+                key={country}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Badge
+                  variant="outline"
+                  className={`cursor-pointer transition-all duration-300 flex items-center gap-2 
+                    ${isSelected ? config.selectedBadge : config.badge}`}
+                  onClick={() => setSelectedCountries(prev => 
+                    prev.includes(country) 
+                      ? prev.filter(c => c !== country)
+                      : [...prev, country]
+                  )}
+                >
+                  <span>{config.flag} {country}</span>
+                </Badge>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
 

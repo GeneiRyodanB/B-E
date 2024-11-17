@@ -3,12 +3,23 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ChevronDown, ChevronUp, Book, User } from 'lucide-react'
+import { ChevronDown, ChevronUp, Book, User, Globe2, Tags, Castle } from 'lucide-react'
 import * as Icons from 'lucide-react'
 import { HistoricalEvent } from './types'
 import { periodStyles, eventTypeStyles } from './constants'
-import { eventTypes, timelineData } from './timelineData'
+import { eventTypes, timelineData, countryStyles } from './timelineData'
 import SearchHighlight from './SearchHighlight'
+
+const DotShape: React.FC<{ variant: 'star' | 'circle'; className: string }> = ({ variant, className }) => {
+  if (variant === 'star') {
+    return (
+      <svg className={`${className} h-4 w-4`} viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+    )
+  }
+  return <div className={`${className} h-3 w-3 rounded-full`} />
+}
 
 interface TimelineEventProps {
   event: HistoricalEvent
@@ -17,6 +28,7 @@ interface TimelineEventProps {
   toggleEvent: (index: number) => void
   viewMode: 'detailed' | 'compact'
   searchQuery: string
+  isLastInPeriod?: boolean
 }
 
 const TimelineEvent: React.FC<TimelineEventProps> = ({ 
@@ -25,13 +37,14 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({
   expandedEvent, 
   toggleEvent, 
   viewMode,
-  searchQuery 
+  searchQuery,
+  isLastInPeriod
 }) => {
   const period = timelineData.periods.find(p => p.name === event.period)
   const periodStyle = periodStyles[event.period as keyof typeof periodStyles]
   const eventType = eventTypes[event.eventType]
+  const countryStyle = countryStyles[event.country as keyof typeof countryStyles]
   const EventIcon = eventType ? Icons[eventType.icon as keyof typeof Icons] : null
-  const PeriodIcon = period ? Icons[period.icon as keyof typeof Icons] : null
 
   return (
     
@@ -71,17 +84,15 @@ const TimelineEvent: React.FC<TimelineEventProps> = ({
                 <EventIcon className={`h-6 w-6 text-${eventType.color}-500`} />
               )}
               <div>
-                <h2 className="text-xl font-semibold">
-                  <SearchHighlight 
-                    text={event.eventName} 
-                    searchQuery={searchQuery}
-                  />
-                </h2>
-                <div className="flex items-center gap-2 mt-1">
-                  <Badge className={`${periodStyle.lightBg} ${periodStyle.text} border ${periodStyle.border}`}>
-                    {event.period}
+                <div className="flex items-center gap-2 mb-1">
+                  {/* Country Badge */}
+                  <Badge className={`${countryStyle.badge} flex items-center gap-1`}>
+                    <span>{countryStyle.flag} {event.country}</span>
                   </Badge>
                 </div>
+                <h2 className="text-xl font-semibold">
+                  <SearchHighlight text={event.eventName} searchQuery={searchQuery} />
+                </h2>
               </div>
             </div>
             {viewMode === 'detailed' && (

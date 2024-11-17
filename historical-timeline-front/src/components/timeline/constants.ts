@@ -1,4 +1,54 @@
 export const periodStyles = {
+    'Restoration': {
+      dot: 'bg-amber-500',
+      line: 'bg-amber-200',
+      border: 'border-amber-500',
+      text: 'text-amber-700',
+      cardBorder: 'border-l-amber-500',
+      lightBg: 'bg-amber-50',
+      hoverBg: 'hover:bg-amber-100',
+      icon: 'text-amber-500'
+    },
+    'Dictatorship': {
+      dot: 'bg-red-500',
+      line: 'bg-red-200',
+      border: 'border-red-500',
+      text: 'text-red-700',
+      cardBorder: 'border-l-red-500',
+      lightBg: 'bg-red-50',
+      hoverBg: 'hover:bg-red-100',
+      icon: 'text-red-500'
+    },
+    'Second Republic': {
+      dot: 'bg-purple-500',
+      line: 'bg-purple-200',
+      border: 'border-purple-500',
+      text: 'text-purple-700',
+      cardBorder: 'border-l-purple-500',
+      lightBg: 'bg-purple-50',
+      hoverBg: 'hover:bg-purple-100',
+      icon: 'text-purple-500'
+    },
+    'Civil War': {
+      dot: 'bg-red-600',
+      line: 'bg-red-200',
+      border: 'border-red-600',
+      text: 'text-red-800',
+      cardBorder: 'border-l-red-600',
+      lightBg: 'bg-red-50',
+      hoverBg: 'hover:bg-red-100',
+      icon: 'text-red-600'
+    },
+    'Franco Regime': {
+      dot: 'bg-blue-500',
+      line: 'bg-blue-200',
+      border: 'border-blue-500',
+      text: 'text-blue-700',
+      cardBorder: 'border-l-blue-500',
+      lightBg: 'bg-blue-50',
+      hoverBg: 'hover:bg-blue-100',
+      icon: 'text-blue-500'
+    },
     'Pre-Colonial': {
       dot: 'bg-amber-500',
       line: 'bg-amber-200',

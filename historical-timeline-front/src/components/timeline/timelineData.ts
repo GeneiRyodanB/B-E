@@ -1,5 +1,20 @@
 import { TimelineData } from './types'
 
+export const countryStyles = {
+  'Morocco': {
+    icon: 'Castle',
+    badge: 'bg-green-100 text-green-800 border-green-300',
+    flag: '🇲🇦',
+    dotVariant: 'star' // for a star-shaped dot
+  },
+  'Spain': {
+    icon: 'Castle',
+    badge: 'bg-red-100 text-red-800 border-red-300',
+    flag: '🇪🇸',
+    dotVariant: 'circle' // for a circular dot
+  }
+}
+
 export const eventTypes = {
   diplomatic: {
     icon: "Handshake",
@@ -53,6 +68,41 @@ export const timelineData: TimelineData = {
       endYear: 1960,
       color: "green",
       icon: "Flag"
+    },
+    {
+      name: "Restoration",
+      startYear: 1900,
+      endYear: 1922,
+      color: "amber",
+      icon: "Crown"
+    },
+    {
+      name: "Dictatorship",
+      startYear: 1923,
+      endYear: 1930,
+      color: "red",
+      icon: "Sword"
+    },
+    {
+      name: "Second Republic",
+      startYear: 1931,
+      endYear: 1936,
+      color: "purple",
+      icon: "Flag"
+    },
+    {
+      name: "Civil War",
+      startYear: 1936,
+      endYear: 1939,
+      color: "red",
+      icon: "Swords"
+    },
+    {
+      name: "Franco Regime",
+      startYear: 1939,
+      endYear: 1960,
+      color: "blue",
+      icon: "Building"
     }
   ],
   events: [
@@ -273,6 +323,186 @@ export const timelineData: TimelineData = {
         type: "Military History",
         description: "History of the formation and development of Morocco's armed forces",
         topics: ["Military Institution", "Post-independence Development"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1902",
+      eventName: "Coronation of Alfonso XIII",
+      figures: ["Alfonso XIII", "María Cristina of Austria"],
+      details: "Alfonso XIII assumes the throne at age 16, ending the regency of his mother María Cristina. This marked the beginning of his personal rule in the Spanish Restoration period.",
+      period: "Restoration",
+      country: "Spain",
+      regions: ["Iberian Peninsula"],
+      topics: ["Monarchy", "Politics", "Royal Succession"],
+      eventType: "political",
+      resources: [{
+        title: "Alfonso XIII and the Crisis of the Restoration",
+        author: "Javier Moreno Luzón",
+        year: "2003",
+        type: "Historical Analysis",
+        description: "Detailed study of Alfonso XIII's reign and its impact on Spanish politics",
+        topics: ["Spanish Monarchy", "Political History"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1909",
+      eventName: "Tragic Week in Barcelona",
+      figures: ["Antonio Maura", "Francesc Ferrer i Guàrdia"],
+      details: "Week-long series of violent confrontations between the Spanish army and working-class protesters in Barcelona, triggered by the call-up of reserve troops for the Second Rif War in Morocco.",
+      period: "Restoration",
+      country: "Spain",
+      regions: ["Catalonia", "Barcelona"],
+      topics: ["Social Unrest", "Military Conflict", "Labor Movement"],
+      eventType: "social",
+      resources: [{
+        title: "The Tragic Week: A Study of Anticlericalism in Spain",
+        author: "Joan Connelly Ullman",
+        year: "1968",
+        type: "Historical Study",
+        description: "Comprehensive analysis of the events and their social impact",
+        topics: ["Social History", "Urban Conflict"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1917",
+      eventName: "Spanish Crisis of 1917",
+      figures: ["Eduardo Dato", "Francisco Cambó"],
+      details: "Multiple simultaneous challenges to the government including military juntas, a parliamentary assembly movement, and a general strike, marking a crucial moment in the decline of the Restoration system.",
+      period: "Restoration",
+      country: "Spain",
+      regions: ["Iberian Peninsula"],
+      topics: ["Political Crisis", "Labor Movement", "Military Reform"],
+      eventType: "political",
+      resources: [{
+        title: "Spain's Crisis of 1917",
+        author: "Francisco J. Romero Salvadó",
+        year: "1999",
+        type: "Academic Study",
+        description: "Analysis of the multiple crises affecting Spain in 1917",
+        topics: ["Political History", "Social Movements"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1923",
+      eventName: "Primo de Rivera Dictatorship",
+      figures: ["Miguel Primo de Rivera", "Alfonso XIII"],
+      details: "Military coup led by General Miguel Primo de Rivera, establishing a dictatorship with the support of King Alfonso XIII, aiming to solve Spain's ongoing political crisis.",
+      period: "Dictatorship",
+      country: "Spain",
+      regions: ["Iberian Peninsula"],
+      topics: ["Military Rule", "Authoritarianism", "Political Reform"],
+      eventType: "political",
+      resources: [{
+        title: "Autoritarismo y poder personal",
+        author: "Shlomo Ben-Ami",
+        year: "1983",
+        type: "Biography",
+        description: "Study of Primo de Rivera's dictatorship and its impact",
+        topics: ["Spanish Dictatorship", "Military Government"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1931",
+      eventName: "Proclamation of Second Republic",
+      figures: ["Niceto Alcalá-Zamora", "Manuel Azaña"],
+      details: "Following municipal elections and the departure of Alfonso XIII, the Second Spanish Republic is proclaimed, marking a significant shift towards democratic governance.",
+      period: "Second Republic",
+      country: "Spain",
+      regions: ["Iberian Peninsula"],
+      topics: ["Democracy", "Constitutional Reform", "Political Change"],
+      eventType: "political",
+      resources: [{
+        title: "The Coming of the Spanish Civil War",
+        author: "Paul Preston",
+        year: "1994",
+        type: "Historical Analysis",
+        description: "Analysis of the Second Republic and the events leading to civil war",
+        topics: ["Spanish Republic", "Political History"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1936",
+      eventName: "Outbreak of Spanish Civil War",
+      figures: ["Francisco Franco", "Manuel Azaña", "Emilio Mola"],
+      details: "Military uprising against the Republican government leads to the Spanish Civil War, beginning a three-year conflict that would reshape Spanish society.",
+      period: "Civil War",
+      country: "Spain",
+      regions: ["Iberian Peninsula"],
+      topics: ["Civil War", "Military Conflict", "Social Revolution"],
+      eventType: "military",
+      resources: [{
+        title: "The Battle for Spain",
+        author: "Antony Beevor",
+        year: "2006",
+        type: "Military History",
+        description: "Comprehensive account of the Spanish Civil War",
+        topics: ["Military History", "Political Conflict"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1939",
+      eventName: "End of Civil War and Franco's Victory",
+      figures: ["Francisco Franco", "José Sanjurjo", "Gonzalo Queipo de Llano"],
+      details: "Nationalist forces under Franco achieve victory, ending the Civil War and establishing Franco's dictatorship that would rule Spain for nearly four decades.",
+      period: "Franco Regime",
+      country: "Spain",
+      regions: ["Iberian Peninsula"],
+      topics: ["Civil War", "Dictatorship", "Political Repression"],
+      eventType: "military",
+      resources: [{
+        title: "Franco's Spain",
+        author: "Stanley G. Payne",
+        year: "1987",
+        type: "Historical Study",
+        description: "Analysis of the establishment and early years of Franco's regime",
+        topics: ["Spanish History", "Dictatorship"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1953",
+      eventName: "Pact of Madrid",
+      figures: ["Francisco Franco", "Dwight D. Eisenhower"],
+      details: "Spain signs agreements with the United States establishing American military bases in exchange for economic and military aid, marking Spain's integration into Western alliance system.",
+      period: "Franco Regime",
+      country: "Spain",
+      regions: ["Iberian Peninsula", "United States"],
+      topics: ["International Relations", "Military Cooperation", "Economic Aid"],
+      eventType: "diplomatic",
+      resources: [{
+        title: "Spain and the United States",
+        author: "Boris N. Liedtke",
+        year: "1998",
+        type: "Diplomatic History",
+        description: "Study of Spanish-American relations during the Franco period",
+        topics: ["International Relations", "Cold War"],
+        resourceType: "book"
+      }]
+    },
+    {
+      year: "1959",
+      eventName: "Stabilization Plan",
+      figures: ["Francisco Franco", "Alberto Ullastres", "Mariano Navarro Rubio"],
+      details: "Implementation of economic reforms ending autarchy and promoting liberalization, leading to the Spanish Miracle of the 1960s.",
+      period: "Franco Regime",
+      country: "Spain",
+      regions: ["Iberian Peninsula"],
+      topics: ["Economic Reform", "Modernization", "International Trade"],
+      eventType: "economic",
+      resources: [{
+        title: "The Transformation of Spain",
+        author: "David Gilmour",
+        year: "1985",
+        type: "Economic History",
+        description: "Analysis of Spain's economic modernization under Franco",
+        topics: ["Economic Development", "Social Change"],
         resourceType: "book"
       }]
     }

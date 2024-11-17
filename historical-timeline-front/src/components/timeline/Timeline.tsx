@@ -11,6 +11,7 @@ import TimelineLegend from './TimelineLegend'
 export const Timeline = () => {
   const [expandedEvent, setExpandedEvent] = useState<number | null>(null)
   const [yearRange, setYearRange] = useState([1900, 1960])
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([])
   const [selectedTopics, setSelectedTopics] = useState<string[]>([])
   const [selectedRegions, setSelectedRegions] = useState<string[]>([])
   const [selectedPeriods, setSelectedPeriods] = useState<string[]>([])
@@ -19,28 +20,32 @@ export const Timeline = () => {
 
   const filteredEvents = useMemo(() => {
     return timelineData.events.filter(event => {
-      const yearInRange = parseInt(event.year) >= yearRange[0] && 
+        const yearInRange = parseInt(event.year) >= yearRange[0] && 
                          parseInt(event.year) <= yearRange[1]
+
+        const matchesCountries = selectedCountries.length === 0 || 
+                         selectedCountries.includes(event.country)
+
       
-      const matchesTopics = selectedTopics.length === 0 || 
-                           selectedTopics.some(topic => event.topics.includes(topic))
-      
-      const matchesRegions = selectedRegions.length === 0 || 
-                            selectedRegions.some(region => event.regions.includes(region))
-      
-      const matchesPeriods = selectedPeriods.length === 0 || 
-                            selectedPeriods.includes(event.period)
-      
-      const matchesSearch = searchQuery === '' || 
+        const matchesTopics = selectedTopics.length === 0 || 
+                            selectedTopics.some(topic => event.topics.includes(topic))
+        
+        const matchesRegions = selectedRegions.length === 0 || 
+                                selectedRegions.some(region => event.regions.includes(region))
+        
+        const matchesPeriods = selectedPeriods.length === 0 || 
+                                selectedPeriods.includes(event.period)
+        
+        const matchesSearch = searchQuery === '' || 
                            event.eventName.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            event.details.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            event.figures.some(figure => 
                              figure.toLowerCase().includes(searchQuery.toLowerCase())
                            )
 
-      return yearInRange && matchesTopics && matchesRegions && matchesPeriods && matchesSearch
+      return yearInRange && matchesTopics && matchesCountries && matchesRegions && matchesPeriods && matchesSearch
     }).sort((a, b) => parseInt(a.year) - parseInt(b.year))
-  }, [yearRange, selectedTopics, selectedRegions, selectedPeriods, searchQuery, timelineData.events])
+  }, [yearRange, selectedTopics, selectedRegions, selectedPeriods, selectedCountries, searchQuery, timelineData.events])
 
   const toggleEvent = (index: number) => {
     setExpandedEvent(expandedEvent === index ? null : index)
@@ -68,6 +73,8 @@ export const Timeline = () => {
         setSelectedRegions={setSelectedRegions}
         selectedPeriods={selectedPeriods}
         setSelectedPeriods={setSelectedPeriods}
+        selectedCountries={selectedCountries}
+        setSelectedCountries={setSelectedCountries}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         viewMode={viewMode}
