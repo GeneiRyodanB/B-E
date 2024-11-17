@@ -1,3 +1,34 @@
+import { Star, Building2, Flag, Globe2, MapPin } from 'lucide-react'
+
+export const countryGroups = {
+  'Western Europe': {
+    Icon: Globe2,
+    badge: 'bg-blue-100 text-blue-800 border-blue-300',
+    countries: {
+      'Spain': {
+        Icon: Building2,
+        badge: 'bg-red-100 text-red-800 border-red-300 hover:bg-red-200',
+        selectedBadge: 'bg-red-500 text-white border-red-600',
+        flag: '🇪🇸'
+      }
+      // Can add more Western European countries here
+    }
+  },
+  'North Africa': {
+    Icon: MapPin,
+    badge: 'bg-orange-100 text-orange-800 border-orange-300',
+    countries: {
+      'Morocco': {
+        Icon: Star,
+        badge: 'bg-green-100 text-green-800 border-green-300 hover:bg-green-200',
+        selectedBadge: 'bg-green-500 text-white border-green-600',
+        flag: '🇲🇦'
+      }
+      // Can add more North African countries here
+    }
+  }
+}
+
 export const periodStyles = {
     'Restoration': {
       dot: 'bg-amber-500',
