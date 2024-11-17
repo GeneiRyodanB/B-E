@@ -6,7 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
-@Entity
+
+//©@Entity
 @Table(name = "resources")
 public class Resource extends PanacheEntity {
     @NotBlank(message = "Title is required")

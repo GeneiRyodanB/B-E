@@ -5,7 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.historical.model.HistoricalEvent;
 import java.util.List;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class HistoricalEventRepository implements PanacheRepository<HistoricalEvent> {
     public List<HistoricalEvent> findByPeriod(String period) {
         return list("period", period);

@@ -23,7 +23,7 @@ public class BookContent extends PanacheEntity {
     public String content;
 
     // Add reference to the resource
-    @OneToOne
-    @JoinColumn(name = "resource_id")
-    public Resource resource;
+    //@OneToOne
+    //@JoinColumn(name = "resource_id")
+    //public Resource resource;
 }

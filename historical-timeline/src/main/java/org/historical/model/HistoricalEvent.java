@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+//@Entity
 @Table(name = "historical_events")
 public class HistoricalEvent extends PanacheEntity {
     @NotBlank(message = "Year is required")

@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Path("/historical")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+//@Path("/historical")
+//@Produces(MediaType.APPLICATION_JSON)
+//@Consumes(MediaType.APPLICATION_JSON)
 public class HistoricalEventResource {
 
-    @Inject
+    /*@Inject
     HistoricalEventRepository repository;
 
     @GET
@@ -350,5 +350,5 @@ public class HistoricalEventResource {
         historicalEvent.period = period;
         historicalEvent.country = country;
         return historicalEvent;
-    }
+    }*/
 }
